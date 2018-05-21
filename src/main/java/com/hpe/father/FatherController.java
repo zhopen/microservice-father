@@ -12,8 +12,14 @@ public class FatherController {
     @RequestMapping("/son/where")
     public String where() throws IOException{
         String where = ManagementFactory.getRuntimeMXBean().getName();
+        String pathPrefix = System.getenv("path_prefix");
+        if(pathPrefix==null){
+            pathPrefix = "";
+        }
 
-        return "Father is at" + where + " ---- Son： " + Request.Get("http://127.0.0.1:10100/where").execute().returnContent().toString();
+        String url = "http://127.0.0.1:10100/" + pathPrefix+ "where";
+        System.out.println(url);
+        return "Father is at" + where + " ---- Son： " + Request.Get(url).execute().returnContent().toString();
     }
 }
 
